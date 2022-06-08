@@ -11,15 +11,12 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(String username, String email, String password, String phone_number) {
-        return Mapper.fromUserDAO(userRepository.createUser(username, email, passwordEncoder.encode(password), phone_number));
+        return Mapper.fromUserDAO(userRepository.createUser(username, email, password, phone_number));
     }
 
     public User getUserById(int id) {

@@ -10,8 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CoreBeans {
 
     @Bean
-    public UserService UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
-        return new UserService(repository, passwordEncoder);
+    public UserService UserService(UserRepository repository) {
+        return new UserService(repository);
     }
 
 }
