@@ -5,4 +5,5 @@ export interface User {
   password: string;
   phone_number: string;
   registration_date: string;
+  image_url: string
 }

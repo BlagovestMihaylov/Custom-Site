@@ -18,7 +18,7 @@ public Users: User[] | undefined;
   }
 
   public getUsers(): void {
-    this.UserService.getUsers(1,10).subscribe(
+    this.UserService.getUsers(0,10).subscribe(
       (response: User[]) => {
         this.Users = response;
       },
