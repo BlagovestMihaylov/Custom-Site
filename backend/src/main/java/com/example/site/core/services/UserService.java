@@ -2,6 +2,7 @@ package com.example.site.core.services;
 
 import com.example.site.core.models.User;
 import com.example.site.repositories.repos.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
@@ -11,12 +12,22 @@ public class UserService {
 
 
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User createUser(String username, String email, String password, String phone_number) {
-        return Mapper.fromUserDAO(userRepository.createUser(username, email, password, phone_number));
+    public User createUser(String username,
+                           String email,
+                           String password,
+                           String phone_number,
+                           String image_url) {
+        return Mapper.fromUserDAO(userRepository.createUser(username,
+                email,
+                encoder.encode(password),
+                phone_number,
+                image_url));
     }
 
     public User getUserById(int id) {
@@ -32,6 +43,11 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.deleteUser(id);
+    }
+
+    public void makeFriendWith(Integer myId, Integer friendId)
+    {
+        userRepository.makeFriendWith(myId, friendId);
     }
 
 }

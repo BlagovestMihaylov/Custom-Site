@@ -1,6 +1,10 @@
 package com.example.site.web.beans;
 
+import com.example.site.repositories.mariaDB.MariaDBFriendshipRepository;
+import com.example.site.repositories.mariaDB.MariaDBPostRepository;
 import com.example.site.repositories.mariaDB.MariaDBUserRepository;
+import com.example.site.repositories.repos.FriendshipRepository;
+import com.example.site.repositories.repos.PostRepository;
 import com.example.site.repositories.repos.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +18,16 @@ public class RepoBeans {
     public UserRepository UserRepository(
             TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
         return new MariaDBUserRepository(txTemplate, jdbcTemplate);
+    }
+    @Bean
+    public PostRepository PostRepository(
+            TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+        return new MariaDBPostRepository(txTemplate, jdbcTemplate);
+    }
+
+    @Bean
+    public FriendshipRepository FriendshipRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+        return  new MariaDBFriendshipRepository(txTemplate, jdbcTemplate);
     }
 
     @Bean

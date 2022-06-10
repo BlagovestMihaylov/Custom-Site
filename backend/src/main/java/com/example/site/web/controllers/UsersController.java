@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/Users")
+@RequestMapping(value = "/api/users")
 public class UsersController {
-    private com.example.site.core.services.UserService userService;
+    private final com.example.site.core.services.UserService userService;
 
     public UsersController(UserService userService) {
         this.userService = userService;
@@ -23,14 +23,14 @@ public class UsersController {
         return userService.listUsers(page, pageSize);
     }
 
+    @PostMapping(value = "/create")
+    public User createUser(@RequestBody UserInput userInput) {
+        return userService.createUser(userInput.username, userInput.email, userInput.password, userInput.phone_number, userInput.image_url);
+    }
+
     @GetMapping(value = "/{id}")
     public User getUser(@PathVariable Integer id) {
         return userService.getUserById(id);
-    }
-
-    @PostMapping(value = "/create")
-    public User createUser(@RequestBody UserInput userInput) {
-        return userService.createUser(userInput.username, userInput.email, userInput.password, userInput.phone_number);
     }
 
     @DeleteMapping(value = "/{id}")

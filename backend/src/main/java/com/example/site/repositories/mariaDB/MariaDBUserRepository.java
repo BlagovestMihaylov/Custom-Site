@@ -29,9 +29,10 @@ public class MariaDBUserRepository implements UserRepository {
 
     public UserDAO createUser(
             String username, String email,
-            String password, String phone_number) {
+            String password, String phone_number, String image_url) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate now = LocalDate.now();
+        // String image_ulr = "https://cdn.marica.bg/images/marica.bg/857/991-ratio-preslava.jpg";
 
         return template.execute(status -> {
             KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -43,12 +44,15 @@ public class MariaDBUserRepository implements UserRepository {
                 ps.setString(3, password);
                 ps.setString(4, phone_number);
                 ps.setString(5, dateFormatter.format(now));
+                ps.setString(6, image_url);
                 return ps;
             }, keyHolder);
             Integer id = Objects.requireNonNull(keyHolder.getKey()).intValue();
-            return new UserDAO(id, username, email, password,phone_number,dateFormatter.format(now));
+
+            return new UserDAO(id, username, email, password, phone_number, dateFormatter.format(now), image_url);
         });
     }
+
 
     @Override
     public UserDAO getUserById(Integer id) {
@@ -68,6 +72,11 @@ public class MariaDBUserRepository implements UserRepository {
         jdbc.update(DELETE_USER, id);
     }
 
+    @Override
+    public void makeFriendWith(Integer myId, Integer friendId) {
+        
+    }
+
 
     private UserDAO fromResultSet(ResultSet rs) throws SQLException {
         return new UserDAO(
@@ -76,20 +85,21 @@ public class MariaDBUserRepository implements UserRepository {
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("phone_number"),
-                rs.getString("registration_date")
+                rs.getString("registration_date"),
+                rs.getString("image_url")
         );
     }
 
     static class Queries {
         public static final String INSERT_USER =
-                "INSERT INTO user (username, email, password, phone_number, registration_date) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO user (username, email, password, phone_number, registration_date, image_url) VALUES (?, ?, ?, ?, ?, ?)";
         public static final String GET_USER =
-                "SELECT *"+
+                "SELECT *" +
                         "FROM user u\n" +
                         "WHERE u.id = ?";
 
         public static final String LIST_USERS =
-                "SELECT *"+
+                "SELECT *" +
                         "FROM user u\n" +
                         "LIMIT ?, ?";
 

@@ -8,11 +8,13 @@ import java.util.List;
 public interface UserRepository {
     UserDAO createUser(
             String username, String email,
-            String password, String phone_number);
+            String password, String phone_number, String image_url);
 
     UserDAO getUserById(Integer id);
 
     List<UserDAO> listUsers(int page, int pageSize);
 
     void deleteUser(Integer id);
+
+    void makeFriendWith(Integer myId, Integer friendId);
 }

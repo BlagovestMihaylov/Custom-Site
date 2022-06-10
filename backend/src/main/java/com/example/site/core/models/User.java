@@ -11,13 +11,15 @@ public class User {
     public final String phone_number;
 
     public final String registration_date;
+    public final String image_url;
 
-    public User(Integer id, String username, String email, String password, String phone_number, String registration_date) {
+    public User(Integer id, String username, String email, String password, String phone_number, String registration_date, String image_url) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.phone_number = phone_number;
         this.registration_date = registration_date;
+        this.image_url = image_url;
     }
 }
