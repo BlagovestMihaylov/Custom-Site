@@ -1,5 +1,6 @@
 package com.example.site.web.controllers;
 
+import com.example.site.core.models.Post;
 import com.example.site.core.models.User;
 import com.example.site.core.services.UserService;
 import com.example.site.web.models.UserInput;
@@ -33,8 +34,23 @@ public class UsersController {
         return userService.getUserById(id);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/delete/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping(value = "/{id}/posts")
+    public List<Post> getUserPosts(@PathVariable("id") Integer id) {
+        return userService.getUserPosts(id);
+    }
+
+    @GetMapping("/{id}/followers")
+    public List<User> getUserFollowers(@PathVariable("id") Integer id) {
+        return userService.getFollowers(id);
+    }
+
+    @GetMapping("/{id}/followings")
+    public List<User> getUserFollowings(@PathVariable("id") Integer id) {
+        return userService.getFollowings(id);
     }
 }

@@ -1,9 +1,9 @@
 package com.example.site.web.beans;
 
-import com.example.site.core.services.FriendshipService;
+import com.example.site.core.services.FollowshipService;
 import com.example.site.core.services.PostService;
 import com.example.site.core.services.UserService;
-import com.example.site.repositories.repos.FriendshipRepository;
+import com.example.site.repositories.repos.FollowshipRepository;
 import com.example.site.repositories.repos.PostRepository;
 import com.example.site.repositories.repos.UserRepository;
 import org.springframework.context.annotation.Bean;
@@ -24,8 +24,8 @@ public class CoreBeans {
     }
 
     @Bean
-    public FriendshipService FriendshipService(FriendshipRepository repository){
-        return new FriendshipService(
+    public FollowshipService FriendshipService(FollowshipRepository repository){
+        return new FollowshipService(
                 repository);
     }
 

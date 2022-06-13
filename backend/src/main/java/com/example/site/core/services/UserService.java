@@ -1,5 +1,6 @@
 package com.example.site.core.services;
 
+import com.example.site.core.models.Post;
 import com.example.site.core.models.User;
 import com.example.site.repositories.repos.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -45,9 +46,29 @@ public class UserService {
         userRepository.deleteUser(id);
     }
 
-    public void makeFriendWith(Integer myId, Integer friendId)
-    {
+    public void makeFriendWith(Integer myId, Integer friendId) {
         userRepository.makeFriendWith(myId, friendId);
+    }
+
+    public List<User> getFollowers(int id) {
+        return userRepository.getFollowers(id)
+                .stream()
+                .map(Mapper::fromUserDAO)
+                .collect(Collectors.toList());
+    }
+
+    public List<User> getFollowings(int id) {
+        return userRepository.getFollowings(id)
+                .stream()
+                .map(Mapper::fromUserDAO)
+                .collect(Collectors.toList());
+    }
+
+    public List<Post> getUserPosts(int id) {
+        return userRepository.getUserPosts(id)
+                .stream()
+                .map(Mapper::fromPostDAO)
+                .collect(Collectors.toList());
     }
 
 }

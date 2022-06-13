@@ -5,4 +5,5 @@ export interface Post {
   user_id: number;
   votes: number;
   views: number;
+  date: string;
 }

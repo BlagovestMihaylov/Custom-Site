@@ -8,13 +8,15 @@ import { UserService } from './user.service';
 import { UserComponent } from './user/user.component';
 import { PostComponent } from './post/post.component';
 import { PostService } from './post.service';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileService } from './profile.service';
 
 
 
 @NgModule({
-  declarations: [AppComponent, UserComponent, PostComponent],
+  declarations: [AppComponent, UserComponent, PostComponent, ProfileComponent],
   imports: [HttpClientModule, BrowserModule, AppRoutingModule],
-  providers: [UserService, PostService],
+  providers: [UserService, PostService, ProfileService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

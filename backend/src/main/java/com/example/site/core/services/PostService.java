@@ -17,7 +17,8 @@ public class PostService {
                            String content,
                            int user_id,
                            int votes,
-                           int views) {
+                           int views,
+                           String date) {
         return Mapper.fromPostDAO(postRepository.createPost(title,
                 content,
                 user_id,
@@ -29,12 +30,12 @@ public class PostService {
         return Mapper.fromPostDAO(postRepository.getPostById(id));
     }
 
-    public List<Post> getPostsByUserId(int user_id) {
-        return postRepository.getPostsByUserId(user_id)
-                .stream()
-                .map(Mapper::fromPostDAO)
-                .collect(Collectors.toList());
-    }
+//    public List<Post> getPostsByUserId(int user_id) {
+//        return postRepository.getPostsByUserId(user_id)
+//                .stream()
+//                .map(Mapper::fromPostDAO)
+//                .collect(Collectors.toList());
+//    }
 
     public List<Post> listPosts(int page, int pageSize) {
         return postRepository.listPosts(page, pageSize)
@@ -47,4 +48,11 @@ public class PostService {
         postRepository.deletePost(id);
     }
 
+
+    public String getUserName(int id){
+        return postRepository.getUserName(id);
+    }
+    public String getUserImageUrl(int id){
+        return postRepository.getUserImageUlr(id);
+    }
 }

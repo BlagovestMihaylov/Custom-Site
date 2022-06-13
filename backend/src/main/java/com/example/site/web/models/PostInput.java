@@ -8,12 +8,16 @@ public class PostInput {
     public final Integer votes;
     public final Integer views;
 
-    public PostInput(Integer id, String title, String content, Integer user_id, Integer votes, Integer views) {
+    public final String date;
+
+
+    public PostInput(Integer id, String title, String content, Integer user_id, Integer votes, Integer views, String date) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.user_id = user_id;
         this.votes = votes;
         this.views = views;
+        this.date = date;
     }
 }

@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,6 +30,9 @@ public class MariaDBPostRepository implements PostRepository {
 
     @Override
     public PostDAO createPost(String title, String content, int user_id, int votes, int views) {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate now = LocalDate.now();
+
         return template.execute(status -> {
             KeyHolder keyHolder = new GeneratedKeyHolder();
             jdbc.update(con -> {
@@ -38,12 +43,13 @@ public class MariaDBPostRepository implements PostRepository {
                         ps.setInt(3, user_id);
                         ps.setInt(4, votes);
                         ps.setInt(5, views);
+                        ps.setString(6, dateFormatter.format(now));
                         return ps;
                     }, keyHolder
             );
             Integer id = Objects.requireNonNull(keyHolder.getKey()).intValue();
             return new PostDAO(
-                    id, title, content, user_id, votes, views
+                    id, title, content, user_id, votes, views, dateFormatter.format(now)
             );
         });
 
@@ -82,21 +88,33 @@ public class MariaDBPostRepository implements PostRepository {
         jdbc.update(DELETE_POSTS, id);
     }
 
-    private PostDAO fromResultSet(ResultSet rs) throws SQLException {
+    @Override
+    public String getUserName(int id) {
+        return jdbc.queryForObject(GET_POST_USER_USERNAME, String.class, id);
+    }
+
+    @Override
+    public String getUserImageUlr(int id) {
+        return jdbc.queryForObject(GET_POST_USER_IMAGE_URL, String.class, id);
+
+    }
+
+    public static PostDAO fromResultSet(ResultSet rs) throws SQLException {
         return new PostDAO(
                 rs.getInt("id"),
                 rs.getString("title"),
                 rs.getString("content"),
                 rs.getInt("user_id"),
                 rs.getInt("votes"),
-                rs.getInt("views")
+                rs.getInt("views"),
+                rs.getString("post_date")
         );
     }
 
 
     static class Queries {
         public static final String INSERT_POST =
-                "INSERT INTO post(title, content, user_id, votes, views) VALUES (?, ?, ?, ?, ?)";
+                "INSERT INTO post(title, content, user_id, votes, views, post_date) VALUES (?, ?, ?, ?, ?, ?)";
 
         public static final String GET_POST =
                 "select * FROM post\n" +
@@ -107,5 +125,15 @@ public class MariaDBPostRepository implements PostRepository {
                         "FROM post u\n" +
                         "LIMIT ?, ?";
         public static final String DELETE_POSTS = "DELETE FROM post WHERE id = ?";
+        public static final String GET_POST_USER_USERNAME =
+                """
+                        SELECT u.username
+                        FROM post p JOIN user u ON u.id = p.user_id
+                        WHERE p.id = ?""";
+        public static final String GET_POST_USER_IMAGE_URL =
+                """
+                        SELECT u.image_url
+                        FROM post p JOIN user u ON u.id = p.user_id
+                        WHERE p.id = ?""";
     }
 }

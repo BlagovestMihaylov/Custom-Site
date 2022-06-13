@@ -18,13 +18,14 @@ public class PostController {
     }
 
 
-    @GetMapping(value = "/create")
+    @PostMapping(value = "/create")
     public Post createPost(@RequestBody PostInput postInput) {
         return postService.createPost(postInput.title,
                 postInput.content,
                 postInput.user_id,
                 postInput.votes,
-                postInput.views);
+                postInput.views,
+                postInput.date);
     }
 
 
@@ -43,6 +44,16 @@ public class PostController {
     @DeleteMapping(value = "/{id}")
     public void deletePost(@PathVariable Integer id) {
         postService.deletePost(id);
+    }
+
+    @GetMapping(value = "/{id}/username")
+    public String getPostUserUsername(@PathVariable("id") Integer id) {
+        return postService.getUserName(id);
+    }
+
+    @GetMapping(value = "/{id}/image")
+    public String getPostUserImageUrl(@PathVariable("id") Integer id) {
+        return postService.getUserImageUrl(id);
     }
 }
 

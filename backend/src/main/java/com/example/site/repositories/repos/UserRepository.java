@@ -1,8 +1,10 @@
 package com.example.site.repositories.repos;
 
+import com.example.site.core.models.Post;
+import com.example.site.core.models.User;
+import com.example.site.repositories.models.PostDAO;
 import com.example.site.repositories.models.UserDAO;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {
@@ -17,4 +19,10 @@ public interface UserRepository {
     void deleteUser(Integer id);
 
     void makeFriendWith(Integer myId, Integer friendId);
+
+    List<UserDAO> getFollowers(int id);
+
+    List<UserDAO> getFollowings(int id);
+
+    List<PostDAO> getUserPosts(int id);
 }

@@ -1,6 +1,6 @@
 package com.example.site.core.services;
 
-import com.example.site.core.models.Friendship;
+import com.example.site.core.models.Followship;
 import com.example.site.core.models.Post;
 import com.example.site.core.models.User;
 import com.example.site.repositories.models.PostDAO;
@@ -23,11 +23,12 @@ public class Mapper {
                 postDAO.content,
                 postDAO.user_id,
                 postDAO.votes,
-                postDAO.views);
+                postDAO.views,
+                postDAO.date);
     }
 
-    public static Friendship fromFriendshipDAO(Friendship friendship) {
-        return new Friendship(
+    public static Followship fromFriendshipDAO(Followship friendship) {
+        return new Followship(
                 friendship.user1_id,
                 friendship.user2_id
         );

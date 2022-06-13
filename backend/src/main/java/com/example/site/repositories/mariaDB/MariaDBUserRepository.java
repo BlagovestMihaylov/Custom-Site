@@ -1,5 +1,8 @@
 package com.example.site.repositories.mariaDB;
 
+import com.example.site.core.models.Post;
+import com.example.site.core.models.User;
+import com.example.site.repositories.models.PostDAO;
 import com.example.site.repositories.models.UserDAO;
 import com.example.site.repositories.repos.UserRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -74,7 +77,25 @@ public class MariaDBUserRepository implements UserRepository {
 
     @Override
     public void makeFriendWith(Integer myId, Integer friendId) {
-        
+
+    }
+
+    @Override
+    public List<UserDAO> getFollowers(int id) {
+        return jdbc.query(GET_USER_FOLLOWERS,
+                (rs, rowNumber) -> fromResultSet(rs), id);
+    }
+
+    @Override
+    public List<UserDAO> getFollowings(int id) {
+        return jdbc.query(GET_USER_FOLLOWERS,
+                (rs, rowNumber) -> fromResultSet(rs), id);
+    }
+
+    @Override
+    public List<PostDAO> getUserPosts(int id) {
+        return  jdbc.query(GET_USER_POSTS,
+                (rs, rowNumber) -> MariaDBPostRepository.fromResultSet(rs), id);
     }
 
 
@@ -92,17 +113,40 @@ public class MariaDBUserRepository implements UserRepository {
 
     static class Queries {
         public static final String INSERT_USER =
-                "INSERT INTO user (username, email, password, phone_number, registration_date, image_url) VALUES (?, ?, ?, ?, ?, ?)";
+                "INSERT INTO user (username, email, password, phone_number, registration_date, image_url)\n"
+                        + "VALUES (?, ?, ?, ?, ?, ?)";
         public static final String GET_USER =
-                "SELECT *" +
-                        "FROM user u\n" +
-                        "WHERE u.id = ?";
+                """
+                        SELECT *
+                        FROM user u
+                        WHERE u.id = ?""";
 
         public static final String LIST_USERS =
-                "SELECT *" +
-                        "FROM user u\n" +
-                        "LIMIT ?, ?";
+                """
+                        SELECT *
+                        FROM user u
+                        LIMIT ?, ?""";
 
         public static final String DELETE_USER = "DELETE FROM user WHERE id = ?";
+
+        public static final String GET_USER_FOLLOWERS =
+                """
+                        SELECT *
+                        FROM follow f
+                        JOIN user u ON u.id = f.user_id1
+                        WHERE user_id2 = ?""";
+
+        public static final String GET_USER_FOLOWINGS = """
+                SELECT *
+                FROM follow f
+                JOIN user u ON u.id = f.user_id2
+                WHERE user_id1 = ?""";
+
+        public static final String GET_USER_POSTS = """
+                SELECT post.*
+                FROM post JOIN user u ON u.id = post.user_id
+                WHERE user_id = ?""";
     }
+
+
 }
