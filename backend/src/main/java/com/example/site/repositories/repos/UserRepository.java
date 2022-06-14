@@ -1,7 +1,5 @@
 package com.example.site.repositories.repos;
 
-import com.example.site.core.models.Post;
-import com.example.site.core.models.User;
 import com.example.site.repositories.models.PostDAO;
 import com.example.site.repositories.models.UserDAO;
 
@@ -18,7 +16,8 @@ public interface UserRepository {
 
     void deleteUser(Integer id);
 
-    void makeFriendWith(Integer myId, Integer friendId);
+    void makeFollow(Integer myId, Integer friendId);
+    void  makeUnfollow(Integer myId, Integer friendId);
 
     List<UserDAO> getFollowers(int id);
 

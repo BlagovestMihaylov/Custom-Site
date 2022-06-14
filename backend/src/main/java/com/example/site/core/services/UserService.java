@@ -4,7 +4,6 @@ import com.example.site.core.models.Post;
 import com.example.site.core.models.User;
 import com.example.site.repositories.repos.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +46,7 @@ public class UserService {
     }
 
     public void makeFriendWith(Integer myId, Integer friendId) {
-        userRepository.makeFriendWith(myId, friendId);
+        userRepository.makeFollow(myId, friendId);
     }
 
     public List<User> getFollowers(int id) {
@@ -71,4 +70,11 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public void followSomebody(Integer myId, Integer otherId) {
+        userRepository.makeFollow(myId, otherId);
+    }
+
+    public void unfollowSomebody(Integer myId, Integer otherId) {
+        userRepository.makeUnfollow(myId, otherId);
+    }
 }

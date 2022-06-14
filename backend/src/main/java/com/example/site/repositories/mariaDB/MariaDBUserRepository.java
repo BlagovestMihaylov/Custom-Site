@@ -1,7 +1,5 @@
 package com.example.site.repositories.mariaDB;
 
-import com.example.site.core.models.Post;
-import com.example.site.core.models.User;
 import com.example.site.repositories.models.PostDAO;
 import com.example.site.repositories.models.UserDAO;
 import com.example.site.repositories.repos.UserRepository;
@@ -76,8 +74,13 @@ public class MariaDBUserRepository implements UserRepository {
     }
 
     @Override
-    public void makeFriendWith(Integer myId, Integer friendId) {
+    public void makeFollow(Integer myId, Integer friendId) {
+        jdbc.update(FOLLOW_SOMEBODY, myId, friendId);
+    }
 
+    @Override
+    public void makeUnfollow(Integer myId, Integer friendId) {
+        jdbc.update(UNFOLLOW_SOMEBODY, myId, friendId);
     }
 
     @Override
@@ -88,13 +91,13 @@ public class MariaDBUserRepository implements UserRepository {
 
     @Override
     public List<UserDAO> getFollowings(int id) {
-        return jdbc.query(GET_USER_FOLLOWERS,
+        return jdbc.query(GET_USER_FOLOWINGS,
                 (rs, rowNumber) -> fromResultSet(rs), id);
     }
 
     @Override
     public List<PostDAO> getUserPosts(int id) {
-        return  jdbc.query(GET_USER_POSTS,
+        return jdbc.query(GET_USER_POSTS,
                 (rs, rowNumber) -> MariaDBPostRepository.fromResultSet(rs), id);
     }
 
@@ -146,6 +149,18 @@ public class MariaDBUserRepository implements UserRepository {
                 SELECT post.*
                 FROM post JOIN user u ON u.id = post.user_id
                 WHERE user_id = ?""";
+
+        public static final String FOLLOW_SOMEBODY =
+                """
+                        INSERT INTO follow(user_id1, user_id2)
+                        VALUES (?, ?);
+                        """;
+        public static final String UNFOLLOW_SOMEBODY =
+                """
+                        DELETE
+                        FROM follow
+                        WHERE user_id1 = ?
+                          AND user_id2 = ?""";
     }
 
 

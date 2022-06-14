@@ -44,6 +44,20 @@ public class UsersController {
         return userService.getUserPosts(id);
     }
 
+    @PostMapping(value = "follow/{myId}&{otherId}")
+    public void followSomebody(@PathVariable("myId") Integer myId,
+                               @PathVariable("otherId") Integer otherId) {
+
+        userService.followSomebody(myId, otherId);
+    }
+
+    @DeleteMapping(value = "unfollow/{myId}&{otherId}")
+    public void unfollowSomebody(@PathVariable("myId") Integer myId,
+                                 @PathVariable("otherId") Integer otherId) {
+        userService.unfollowSomebody(myId, otherId);
+    }
+
+
     @GetMapping("/{id}/followers")
     public List<User> getUserFollowers(@PathVariable("id") Integer id) {
         return userService.getFollowers(id);

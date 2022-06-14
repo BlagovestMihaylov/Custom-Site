@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -30,8 +31,9 @@ public class MariaDBPostRepository implements PostRepository {
 
     @Override
     public PostDAO createPost(String title, String content, int user_id, int votes, int views) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate now = LocalDate.now();
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        LocalDateTime now = LocalDateTime
+                .now();
 
         return template.execute(status -> {
             KeyHolder keyHolder = new GeneratedKeyHolder();
