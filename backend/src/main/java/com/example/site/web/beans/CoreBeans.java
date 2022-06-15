@@ -1,11 +1,8 @@
 package com.example.site.web.beans;
 
-import com.example.site.core.services.FollowshipService;
-import com.example.site.core.services.PostService;
-import com.example.site.core.services.UserService;
-import com.example.site.repositories.repos.FollowshipRepository;
-import com.example.site.repositories.repos.PostRepository;
-import com.example.site.repositories.repos.UserRepository;
+import com.example.site.core.models.Comment;
+import com.example.site.core.services.*;
+import com.example.site.repositories.repos.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +24,21 @@ public class CoreBeans {
     public FollowshipService FriendshipService(FollowshipRepository repository){
         return new FollowshipService(
                 repository);
+    }
+
+    @Bean
+    public CommentService CommentService(CommentRepository repository)
+    {
+        return new CommentService(repository);
+    }
+    @Bean
+    ReportService ReportService(ReportRepository repository){
+        return new ReportService(repository);
+    }
+
+    @Bean
+    LikeService LikeService(LikeRepository repository){
+        return new LikeService(repository);
     }
 
 }

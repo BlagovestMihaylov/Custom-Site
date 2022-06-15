@@ -1,7 +1,6 @@
 package com.example.site.web.controllers;
 
 import com.example.site.core.models.Post;
-import com.example.site.core.models.Post;
 import com.example.site.core.services.PostService;
 import com.example.site.web.models.PostInput;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +23,8 @@ public class PostController {
                 postInput.content,
                 postInput.user_id,
                 postInput.votes,
-                postInput.views,
-                postInput.date);
+                postInput.views
+        );
     }
 
 

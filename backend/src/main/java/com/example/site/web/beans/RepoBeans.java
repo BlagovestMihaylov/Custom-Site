@@ -1,11 +1,7 @@
 package com.example.site.web.beans;
 
-import com.example.site.repositories.mariaDB.MariaDBFollowshipRepository;
-import com.example.site.repositories.mariaDB.MariaDBPostRepository;
-import com.example.site.repositories.mariaDB.MariaDBUserRepository;
-import com.example.site.repositories.repos.FollowshipRepository;
-import com.example.site.repositories.repos.PostRepository;
-import com.example.site.repositories.repos.UserRepository;
+import com.example.site.repositories.mariaDB.*;
+import com.example.site.repositories.repos.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,15 +15,30 @@ public class RepoBeans {
             TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
         return new MariaDBUserRepository(txTemplate, jdbcTemplate);
     }
+
     @Bean
     public PostRepository PostRepository(
-            TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+            TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
         return new MariaDBPostRepository(txTemplate, jdbcTemplate);
     }
 
     @Bean
-    public FollowshipRepository FriendshipRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
-        return  new MariaDBFollowshipRepository(txTemplate, jdbcTemplate);
+    public FollowshipRepository FriendshipRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
+        return new MariaDBFollowshipRepository(txTemplate, jdbcTemplate);
+    }
+
+    @Bean
+    public CommentRepository CommentRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
+        return new MariaDBCommentRepository(txTemplate, jdbcTemplate);
+    }
+
+    @Bean
+    public ReportRepository ReportRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate) {
+        return new MariaDBReportRepository(txTemplate, jdbcTemplate);
+    }
+    @Bean
+    public LikeRepository LikeRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+        return new MariaDBLikeRepository(txTemplate, jdbcTemplate);
     }
 
     @Bean

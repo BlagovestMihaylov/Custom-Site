@@ -6,6 +6,8 @@ import com.example.site.repositories.repos.PostRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.site.core.services.Mapper.fromPostDAO;
+
 public class PostService {
     private final PostRepository postRepository;
 
@@ -17,9 +19,8 @@ public class PostService {
                            String content,
                            int user_id,
                            int votes,
-                           int views,
-                           String date) {
-        return Mapper.fromPostDAO(postRepository.createPost(title,
+                           int views) {
+        return fromPostDAO(postRepository.createPost(title,
                 content,
                 user_id,
                 votes,
@@ -27,7 +28,7 @@ public class PostService {
     }
 
     public Post getPostById(int id) {
-        return Mapper.fromPostDAO(postRepository.getPostById(id));
+        return fromPostDAO(postRepository.getPostById(id));
     }
 
 //    public List<Post> getPostsByUserId(int user_id) {

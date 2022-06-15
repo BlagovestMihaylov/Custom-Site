@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CommentRepository {
     CommentDAO createComment(
-            int id, int user_id, int post_id, int comment_id,
-            String content, int votes, String time
+            Integer user_id, Integer post_id, Integer comment_id,
+            String content, Integer votes, String time
     );
 
     List<CommentDAO> getPostComments(int post_id);

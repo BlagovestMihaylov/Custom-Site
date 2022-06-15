@@ -1,10 +1,7 @@
 package com.example.site.core.services;
 
-import com.example.site.core.models.Followship;
-import com.example.site.core.models.Post;
-import com.example.site.core.models.User;
-import com.example.site.repositories.models.PostDAO;
-import com.example.site.repositories.models.UserDAO;
+import com.example.site.core.models.*;
+import com.example.site.repositories.models.*;
 
 public class Mapper {
     public static User fromUserDAO(UserDAO userDAO) {
@@ -32,5 +29,36 @@ public class Mapper {
                 friendship.user1_id,
                 friendship.user2_id
         );
+    }
+
+    public static Report fromReportDAO(ReportDAO reportDAO) {
+        return new Report(
+                reportDAO.id,
+                reportDAO.user_id,
+                reportDAO.post_id,
+                reportDAO.comment_id,
+                reportDAO.content,
+                reportDAO.report_date
+        );
+    }
+
+    public static Like fromLikeDAO(LikeDAO likeDAO) {
+        return new Like(
+                likeDAO.id,
+                likeDAO.user_id,
+                likeDAO.post_id,
+                likeDAO.comment_id,
+                likeDAO.like_date
+        );
+    }
+
+    public static Comment fromCommentDAO(CommentDAO commentDAO) {
+        return new Comment(commentDAO.id,
+                commentDAO.user_id,
+                commentDAO.post_id,
+                commentDAO.comment_id,
+                commentDAO.content,
+                commentDAO.votes,
+                commentDAO.date);
     }
 }
