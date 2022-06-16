@@ -11,6 +11,7 @@ public interface UserRepository {
             String password, String phone_number, String image_url);
 
     UserDAO getUserById(Integer id);
+    UserDAO getUserByUsername(String userName);
 
     List<UserDAO> listUsers(int page, int pageSize);
 

@@ -63,6 +63,12 @@ public class MariaDBUserRepository implements UserRepository {
     }
 
     @Override
+    public UserDAO getUserByUsername(String userName) {
+        return jdbc.queryForObject(GET_USER_BY_USERNAME,
+                (rs, rowNum) -> fromResultSet(rs), userName);
+    }
+
+    @Override
     public List<UserDAO> listUsers(int page, int pageSize) {
         return jdbc.query(LIST_USERS,
                 (rs, rowNum) -> fromResultSet(rs), page * pageSize, pageSize);
@@ -124,6 +130,11 @@ public class MariaDBUserRepository implements UserRepository {
                         FROM user u
                         WHERE u.id = ?""";
 
+        public static final String GET_USER_BY_USERNAME =
+                """
+                      SELECT *
+                                      FROM user
+                                      WHERE username = ?""";
         public static final String LIST_USERS =
                 """
                         SELECT *

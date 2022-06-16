@@ -41,8 +41,8 @@ public class RepoBeans {
         return new MariaDBLikeRepository(txTemplate, jdbcTemplate);
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    public BCryptPasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 }

@@ -12,7 +12,7 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+    //  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -25,7 +25,7 @@ public class UserService {
                            String image_url) {
         return Mapper.fromUserDAO(userRepository.createUser(username,
                 email,
-                encoder.encode(password),
+                (password),
                 phone_number,
                 image_url));
     }

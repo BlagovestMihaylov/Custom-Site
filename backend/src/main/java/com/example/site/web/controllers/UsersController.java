@@ -67,4 +67,7 @@ public class UsersController {
     public List<User> getUserFollowings(@PathVariable("id") Integer id) {
         return userService.getFollowings(id);
     }
+
+
+
 }
