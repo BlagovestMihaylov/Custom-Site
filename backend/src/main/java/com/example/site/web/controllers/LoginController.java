@@ -24,10 +24,10 @@ public class LoginController {
         this.authenticationManager = authenticationManager;
     }
 
-    @GetMapping(value = "/")
-    public String welcome() {
-        return "Hello";
-    }
+//    @GetMapping(value = "/")
+//    public String welcome() {
+//        return "Hello";
+//    }
 
     @GetMapping(value = "/login")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
