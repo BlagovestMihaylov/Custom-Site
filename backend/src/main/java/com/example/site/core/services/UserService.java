@@ -3,8 +3,11 @@ package com.example.site.core.services;
 import com.example.site.core.models.Post;
 import com.example.site.core.models.User;
 import com.example.site.repositories.repos.UserRepository;
+import com.example.site.security.Hashing;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,7 +15,7 @@ public class UserService {
 
 
     private final UserRepository userRepository;
-    //  private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
+   private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -22,10 +25,10 @@ public class UserService {
                            String email,
                            String password,
                            String phone_number,
-                           String image_url) {
+                           String image_url) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return Mapper.fromUserDAO(userRepository.createUser(username,
                 email,
-                (password),
+                Hashing.generateStoringPasswordHash(password),
                 phone_number,
                 image_url));
     }
@@ -76,5 +79,12 @@ public class UserService {
 
     public void unfollowSomebody(Integer myId, Integer otherId) {
         userRepository.makeUnfollow(myId, otherId);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getUsers()
+                .stream()
+                .map(Mapper::fromUserDAO)
+                .collect(Collectors.toList());
     }
 }

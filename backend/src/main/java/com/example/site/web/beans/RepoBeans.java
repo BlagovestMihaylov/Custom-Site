@@ -41,6 +41,15 @@ public class RepoBeans {
         return new MariaDBLikeRepository(txTemplate, jdbcTemplate);
     }
 
+    @Bean
+    public TagRepository TagRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+        return new MariaDBTagRepository(txTemplate, jdbcTemplate);
+    }
+    @Bean
+    public CategoryRepository CategoryRepository(TransactionTemplate txTemplate, JdbcTemplate jdbcTemplate){
+        return new MariaDBCategoryRepository(txTemplate, jdbcTemplate);
+    }
+
 //    @Bean
 //    public BCryptPasswordEncoder passwordEncoder() {
 //        return new BCryptPasswordEncoder();

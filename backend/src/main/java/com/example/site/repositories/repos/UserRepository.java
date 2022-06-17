@@ -14,6 +14,7 @@ public interface UserRepository {
     UserDAO getUserByUsername(String userName);
 
     List<UserDAO> listUsers(int page, int pageSize);
+    List<UserDAO> getUsers();
 
     void deleteUser(Integer id);
 

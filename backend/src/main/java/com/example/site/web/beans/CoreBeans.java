@@ -41,4 +41,14 @@ public class CoreBeans {
         return new LikeService(repository);
     }
 
+    @Bean
+    TagService TagService(TagRepository repository){
+        return new TagService(repository);
+    }
+    @Bean
+    CategoryService CategoryService(CategoryRepository repository){
+        return new CategoryService(repository);
+    }
+
+
 }

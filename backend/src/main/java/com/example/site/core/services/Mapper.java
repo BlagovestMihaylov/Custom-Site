@@ -35,8 +35,7 @@ public class Mapper {
         return new Report(
                 reportDAO.id,
                 reportDAO.user_id,
-                reportDAO.post_id,
-                reportDAO.comment_id,
+                reportDAO.reported,
                 reportDAO.content,
                 reportDAO.report_date
         );
@@ -44,10 +43,8 @@ public class Mapper {
 
     public static Like fromLikeDAO(LikeDAO likeDAO) {
         return new Like(
-                likeDAO.id,
                 likeDAO.user_id,
-                likeDAO.post_id,
-                likeDAO.comment_id,
+                likeDAO.liked_thing,
                 likeDAO.like_date
         );
     }
@@ -60,5 +57,14 @@ public class Mapper {
                 commentDAO.content,
                 commentDAO.votes,
                 commentDAO.date);
+    }
+
+    public static Tag fromTagDAO(TagDAO tagDAO) {
+        return new Tag(tagDAO.id, tagDAO.name);
+    }
+
+    public static Category fromCategoryDAO(CategoryDAO categoryDAO) {
+        return new Category(categoryDAO.id, categoryDAO.name);
+
     }
 }

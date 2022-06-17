@@ -75,6 +75,11 @@ public class MariaDBUserRepository implements UserRepository {
     }
 
     @Override
+    public List<UserDAO> getUsers() {
+        return jdbc.query(GET_ALL_USERS, (rs, rowNum) -> fromResultSet(rs));
+    }
+
+    @Override
     public void deleteUser(Integer id) {
         jdbc.update(DELETE_USER, id);
     }
@@ -88,6 +93,7 @@ public class MariaDBUserRepository implements UserRepository {
     public void makeUnfollow(Integer myId, Integer friendId) {
         jdbc.update(UNFOLLOW_SOMEBODY, myId, friendId);
     }
+
 
     @Override
     public List<UserDAO> getFollowers(int id) {
@@ -121,6 +127,8 @@ public class MariaDBUserRepository implements UserRepository {
     }
 
     static class Queries {
+
+        public static final String GET_ALL_USERS = "SELECT * FROM user";
         public static final String INSERT_USER =
                 "INSERT INTO user (username, email, password, phone_number, registration_date, image_url)\n"
                         + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -132,9 +140,9 @@ public class MariaDBUserRepository implements UserRepository {
 
         public static final String GET_USER_BY_USERNAME =
                 """
-                      SELECT *
-                                      FROM user
-                                      WHERE username = ?""";
+                        SELECT *
+                                        FROM user
+                                        WHERE username = ?""";
         public static final String LIST_USERS =
                 """
                         SELECT *

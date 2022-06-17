@@ -14,32 +14,44 @@ public class ReportService {
         this.repository = repository;
     }
 
-    public Report createReport(Integer user_id, Integer post_id, Integer comment_id, String content) {
-        return Mapper.fromReportDAO(repository.createReport(
-                user_id,
-                post_id,
-                comment_id,
-                content));
-    }
+//    public Report createReport(Integer user_id, Integer post_id, Integer comment_id, String content) {
+//        return Mapper.fromReportDAO(repository.createReport(
+//                user_id,
+//                post_id,
+//                comment_id,
+//                content));
+//    }
 
     public List<Report> getPostReports(Integer id) {
-        return repository.getPostReports(id)
+        return repository.getReportedPosts(id)
                 .stream()
                 .map(Mapper::fromReportDAO)
                 .collect(Collectors.toList());
     }
 
-    public List<Report> getUserReports(Integer id) {
-        return repository.getUserReports(id)
-                .stream()
-                .map(Mapper::fromReportDAO)
-                .collect(Collectors.toList());
-    }
+//    public List<Report> getUserReports(Integer id) {
+//        return repository.getUserReports(id)
+//                .stream()
+//                .map(Mapper::fromReportDAO)
+//                .collect(Collectors.toList());
+//    }
 
     public List<Report> getCommentReports(Integer id) {
-        return repository.getCommentReports(id)
+        return repository.getReportedComments(id)
                 .stream()
                 .map(Mapper::fromReportDAO)
                 .collect(Collectors.toList());
+    }
+
+    public Report reportPost(Integer user_id, Integer reported, String content) {
+        return Mapper.fromReportDAO(repository.reportPost(user_id, reported, content));
+    }
+
+    public Report reportUser(Integer user_id, Integer reported, String content) {
+        return Mapper.fromReportDAO(repository.reportUser(user_id, reported, content));
+    }
+
+    public Report reportComment(Integer user_id, Integer reported, String content) {
+        return Mapper.fromReportDAO(repository.reportComment(user_id, reported, content));
     }
 }

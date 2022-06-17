@@ -1,6 +1,8 @@
 package com.example.site.repositories.mariaDB;
 
+import com.example.site.repositories.models.CategoryDAO;
 import com.example.site.repositories.models.PostDAO;
+import com.example.site.repositories.models.TagDAO;
 import com.example.site.repositories.repos.PostRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -101,6 +103,34 @@ public class MariaDBPostRepository implements PostRepository {
 
     }
 
+    @Override
+    public List<TagDAO> getPostTags(Integer post_id) {
+        return jdbc.query(GET_POST_TAGS,
+                (rs, rowNum) -> MariaDBTagRepository.fromResultSet(rs), post_id);
+    }
+
+    @Override
+    public List<CategoryDAO> getPostCategories(Integer post_id) {
+        return jdbc.query(GET_POST_CATEGORIES,
+                (rs, rowNum) -> MariaDBCategoryRepository.fromResultSet(rs), post_id);
+    }
+
+    @Override
+    public Integer getPostVotes(Integer post_id) {
+        return jdbc.queryForObject(GET_POST_VOTES, Integer.class, post_id);
+    }
+
+    @Override
+    public void addCategory(Integer post_id, Integer category_id) {
+        jdbc.update(ADD_CATEGORY, post_id, category_id);
+    }
+
+    @Override
+    public void addTag(Integer post_id, Integer tag_id) {
+        jdbc.update(ADD_TAG, post_id, post_id);
+    }
+
+
     public static PostDAO fromResultSet(ResultSet rs) throws SQLException {
         return new PostDAO(
                 rs.getInt("id"),
@@ -137,5 +167,19 @@ public class MariaDBPostRepository implements PostRepository {
                         SELECT u.image_url
                         FROM post p JOIN user u ON u.id = p.user_id
                         WHERE p.id = ?""";
+
+        public static final String GET_POST_CATEGORIES = """
+                SELECT *
+                FROM post_categories
+                WHERE post_id =?""";
+        public static final String GET_POST_TAGS = """
+                SELECT *
+                FROM post_tags
+                WHERE post_id = ?""";
+        public static final String GET_POST_VOTES = "SELECT COUNT(*) as likes from like_post WHERE liked = ?";
+        public static final String ADD_TAG = "INSERT INTO post_tags\n" +
+                "VALUES (?, ?)";
+        public static final String ADD_CATEGORY = "INSERT INTO post_categories\n" +
+                "VALUES (?, ?)";
     }
 }

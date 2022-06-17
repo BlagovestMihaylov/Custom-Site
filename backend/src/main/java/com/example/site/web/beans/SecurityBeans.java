@@ -31,4 +31,5 @@ public class SecurityBeans {
         return new Filter(jwtUtil, customUserDetails);
     }
 
+
 }

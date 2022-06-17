@@ -6,6 +6,8 @@ import com.example.site.core.services.UserService;
 import com.example.site.web.models.UserInput;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 @RestController
@@ -24,8 +26,13 @@ public class UsersController {
         return userService.listUsers(page, pageSize);
     }
 
+    @GetMapping(value = "/all")
+    public List<User> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
     @PostMapping(value = "/create")
-    public User createUser(@RequestBody UserInput userInput) {
+    public User createUser(@RequestBody UserInput userInput) throws NoSuchAlgorithmException, InvalidKeySpecException {
         return userService.createUser(userInput.username, userInput.email, userInput.password, userInput.phone_number, userInput.image_url);
     }
 
