@@ -2,12 +2,14 @@ package com.example.site.web.controllers;
 
 
 import com.example.site.core.models.AuthRequest;
+import com.example.site.core.models.Token;
 import com.example.site.security.Hashing;
 import com.example.site.security.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +31,8 @@ public class LoginController {
 //        return "Hello";
 //    }
 
-    @GetMapping(value = "/login")
-    public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+    @PostMapping(value = "/login")
+    public Token generateToken(@RequestBody AuthRequest authRequest) throws Exception {
 //        try {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.username, Hashing.generateStoringPasswordHash(authRequest.password)));
@@ -38,7 +40,7 @@ public class LoginController {
 //        } catch (Exception e) {
 //            throw new Exception("invalid username/password");
 //        }
-        return jwtUtil.generateToken(authRequest.username);
+        return new Token( jwtUtil.generateToken(authRequest.username)) ;
     }
 
 }

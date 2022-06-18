@@ -45,7 +45,7 @@ public class MariaDBUserRepository implements UserRepository {
                 ps.setString(3, password);
                 ps.setString(4, phone_number);
                 ps.setString(5, dateFormatter.format(now));
-                ps.setString(6, image_url);
+                ps.setObject(6, image_url);
                 return ps;
             }, keyHolder);
             Integer id = Objects.requireNonNull(keyHolder.getKey()).intValue();

@@ -24,8 +24,8 @@ public class PostController {
         return postService.createPost(postInput.title,
                 postInput.content,
                 postInput.user_id,
-                postInput.votes,
-                postInput.views
+                0,
+                0
         );
     }
 

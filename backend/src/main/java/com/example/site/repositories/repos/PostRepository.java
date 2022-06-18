@@ -45,5 +45,7 @@ public interface PostRepository {
 
     void addCategory(Integer post_id, Integer category_id);
     void addTag(Integer post_id, Integer tag_id);
+
+    List<PostDAO> getPosts();
 }
 
